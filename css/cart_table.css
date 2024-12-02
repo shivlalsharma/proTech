@@ -1,0 +1,253 @@
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+table, th, td {
+    border: 1px solid #ddd;
+}
+th, td {
+    padding: 8px;
+    text-align: center;
+}
+th {
+    background-color: #f4f4f4;
+}
+.product-image img {
+    max-width: 100px;
+    height: auto;
+}
+
+#quantity{
+    border-radius: 3px;
+    border: none;
+    background-color: #3e3e3e;
+    font-weight: bold;
+    padding: 4px 8px;
+    color: white;
+}
+
+.change-quantity{
+    border: 1px solid #636363;
+    padding: 5px 10px;
+    border-radius: 5px;
+    outline: none;
+}
+.remove-checkbox {
+    margin: 0;
+}
+.remove-button{
+    border: none;
+    background-color: red;
+    border-radius: 3px;
+} 
+
+.remove-button a{
+    display: block;
+    padding: 3px 5px;
+    color: #fff;
+    font-size: 15px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.remove-button:hover{
+    background-color: #c30000;
+}
+
+.update-button{
+    border: none;
+    background-color: #00f;
+    border-radius: 3px;
+} 
+
+.update-button a{
+    display: block;
+    padding: 3px 5px;
+    color: #fff;
+    font-size: 15px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.update-button:hover {
+    background-color: #0056b3;
+}
+
+.update-quantity-button{
+    border-radius: 5px;
+    border: none;
+    background-color: #007bff;
+    font-weight: bold;
+    padding: 10px 15px;
+    color: white;
+    cursor: pointer;
+}
+
+.remove-all-button{
+    border: none;
+    color: #ff0000;
+    cursor: pointer;
+    font-size: 20px;
+} 
+
+.remove-all-button:hover{
+    color: #c30000;
+}
+
+.select-all {
+    cursor: pointer;
+    color: #007bff;
+}
+.select-all:hover {
+    text-decoration: underline;
+}
+.cart-summary {
+    font-weight: bold;
+    margin-top: 20px;
+    padding: 10px;
+    border-top: 2px solid #ddd;
+    display: flex;
+    justify-content: space-between;
+}
+
+.subtotal{
+    font-weight: bold;
+    padding: 10px 15px;
+    border: none;
+    color: white;
+    background-color: #007bff;
+    border-radius: 5px;
+}
+.cart-summary .buttons {
+    display: flex;
+    gap: 10px;
+}
+.cart-summary .buttons button {
+    border: none;
+    background-color: #007bff;
+    border-radius: 5px;
+}
+
+.cart-summary .buttons button a{
+    display: block;
+    font-weight: bold;
+    padding: 10px 15px;
+    text-decoration: none;
+    color: #fff;
+}
+.cart-summary .buttons button:hover {
+    background-color: #0056b3;
+}
+
+h2{
+    margin-top: 10px;
+    font-weight: bold;
+    text-align: center;
+    color: #f00;
+}
+
+@media (max-width:625px){
+    .update-button{
+        margin-top: 3px;
+    }
+    .change-quantity{
+        padding: 5px 5px;
+        width: 64px;
+    }
+    th,td{
+        font-size: 15px;
+    }
+}
+
+@media (max-width:560px){
+    th,td{
+        padding: 8px 2px;
+    }
+    .product-image img{
+        max-width: 75px;
+    }
+    .cart-summary{
+        flex-direction: column;
+    }
+    .subtotal{
+        max-width: 225px;
+    }
+    .buttons{
+        justify-content: space-between;
+        margin-top: 10px;
+    }
+} 
+
+@media (max-width:490px){
+    th,td{
+        font-size: 14px;
+    }
+}
+
+@media (max-width:450px){
+    h2{
+        font-size: 20px;
+    }
+    .product-image img{
+        max-width: 60px;
+    }
+    th,td{
+        font-size: 13px;
+    }
+    .remove-all-button{
+        font-size: 17px;
+    }
+    .cart-summary{
+        font-size: 13px;
+    }
+    .subtotal{
+        max-width: 175px;
+        padding: 5px 10px;
+    }
+    .update-button a{
+        font-size: 13px;
+    }
+    .remove-button{
+        padding: 3px 3px;
+    }
+    .remove-button a{
+        font-size: 13px;
+    }
+    .cart-summary .buttons button a{
+        padding: 5px 10px;
+    }
+    .update-quantity-button{
+        padding: 4px 4px;
+        border-radius: 3px;
+        font-size: 11px;
+    }
+    .change-quantity{
+        padding: 2px 3px;
+        width: 47px;
+    }
+}
+
+@media (max-width:365px){
+    .product-image img{
+        max-width: 45px;
+    }
+    #quantity{
+        font-size: 12px;
+    }
+}
+
+@media (max-width:340px){
+    th,td{
+        font-size: 11px;
+        padding: 8px 1px;
+    }
+    #quantity{
+        font-size: 11px;
+    }
+    .update-button a{
+        font-size: 11px;
+    }
+    .remove-button a{
+        font-size: 11px;
+    }
+}

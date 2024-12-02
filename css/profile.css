@@ -1,0 +1,559 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+.container {
+    display: flex;
+    flex: 1;
+}
+
+/* pending orders */
+.main-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    padding: 15px;
+    background-color: #fff;
+}
+
+.pending-order{
+    font-size: 23px;
+    margin-bottom: 15px;
+}
+
+.order-details{
+    padding: 10px 20px;
+    border: none;
+    background-color: #0057d1;
+    color: #fff;
+    font-size: 16px;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.order-details:hover{
+    background-color: #076fff;
+}
+
+/* my orders */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+table, th, td {
+    border: 1px solid #ddd;
+}
+th, td {
+    padding: 8px;
+    text-align: center;
+}
+th {
+    background-color: #f4f4f4;
+}
+
+.confirm-button{
+    border-radius: 5px;
+    border: none;
+    background-color: #007bff;
+} 
+
+.confirm-button a{
+    display: block;
+    font-weight: bold;
+    padding: 10px 15px;
+    color: white;
+    font-size: 16px;
+    text-decoration: none;
+}
+
+.paid-button{
+    border-radius: 5px;
+    border: none;
+    background-color: #007bff;
+    font-weight: bold;
+    padding: 10px 15px;
+    color: white;
+    font-size: 16px;
+}
+
+/* Confirm Payment */
+.box {
+    max-width: 300px;
+    margin: auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+.box h2 {
+    text-align:center;
+    margin-top: 0;
+    margin-bottom: 17px;
+    font-size: 22px;
+}
+.box label {
+    font-size: 16px;
+    display: block;
+    margin: 10px 0 5px;
+}
+.box input, select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    outline: none;
+}
+.box button {
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+}
+.box button:hover {
+    background-color: #218838;
+}
+
+/* edit account */
+.form-container {
+    max-width: 300px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-container h2 {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.form-group .user-image{
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.form-group p{
+    margin-top: 5px;
+    text-align: left;
+    color: #ff0000;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-group input[type="text"],
+.form-group input[type="tel"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.form-group button {
+    width: 100%;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 0 auto;
+}
+
+.form-group button:hover {
+    background-color: #0056b3;
+}
+
+/* delete account */
+.delete-container{
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.delete-account{
+    background-color: #e94848;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.delete-account:hover{
+    background-color: #f00;
+}
+
+.not-delete-account{
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.not-delete-account a {
+    display: block;
+    padding: 10px 20px;
+    text-decoration: none;
+    color: #fff;
+    font-size: 16px;
+}
+
+.not-delete-account:hover{
+    background-color: #0056b3;
+}
+
+/* Sidebar Container */
+.sidebar-profile {
+    width: 250px;
+    background-color: #666666;
+    border-right: 1px solid #4a4a4a;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    position: relative;
+}
+
+#userSidebarClose{
+    display: none;
+}
+
+/* Profile Section */
+.profile-section {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.profile-picture {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.username {
+    font-size: 1.2em;
+    margin: 0;
+    color: #fff;
+}
+
+.pending-orders {
+    font-size: 1em;
+    margin: 10px 0;
+    margin-top: 30px;
+}
+
+.pending-orders span {
+    font-weight: bold;
+}
+
+/* Action Buttons */
+.action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.action-button {
+    text-decoration: none;
+    color: #333;
+    font-size: 1.2em;
+    padding: 10px;
+    background-color: #e0e0e0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.action-button:hover {
+    background-color: #ddd;
+}
+
+.delete-button {
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    color: #721c24;
+}
+
+.delete-button:hover {
+    background-color: #f5c6cb;
+    color: #721c24;
+}
+
+.logout-button {
+    text-decoration: none;
+    color: #fff;
+    background-color: #dc3545;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 1.2em;
+    display: block;
+    text-align: center;
+}
+
+.logout-button:hover {
+    background-color: #c82333;
+}
+
+/* user header image */
+#userSidebarOpen{
+    display: none;
+}
+
+/* responsive user profile */
+@media (max-width:1110px){
+    .footer{
+        display: none;
+    }
+    #userSidebarOpen{
+        display: block;
+        cursor: pointer;
+    }
+    #userModal{
+        display: none;
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0,0.5);
+        z-index: 10;
+        overflow: auto;
+        transition: opacity 0.3s ease;
+    }
+    .sidebar-profile{
+        position: fixed;
+        top: 70px;
+        right: -32%;
+        transition: right 0.5s ease;
+    }
+    #userSidebarClose{
+        display: block;
+        position: absolute;
+        top: -9px;
+        left: -23px;
+        color: #fff;
+        font-size: 35px;
+        cursor: pointer;
+    }
+}
+
+@media (max-width:600px){
+    .sidebar-profile{
+        width: 200px;
+    }
+    .action-button{
+        padding: 5px;
+        font-size: 1em;
+    }
+    .logout-button{
+        padding: 5px;
+        font-size: 1em;
+    }
+    .username{
+        font-size: 1.1em;
+    }
+}
+
+@media (max-width:450px){
+    .sidebar-profile{
+        top: 55px;
+    }
+    .profile-picture{
+        width: 55px;
+        height: 55px;
+    }
+    .username{
+        font-size: 15px;
+    }
+    .action-button{
+        font-size: 15px;
+    }
+    .logout-button{
+        font-size: 15px;
+    }
+    .profile-section{
+        margin-bottom: 15px;
+    }
+}
+
+@media (max-width:400px){
+    .sidebar-profile{
+        width: 160px;
+    }
+}
+
+/* responsive user orders */
+@media (max-width:845px){
+    th,td{
+        padding: 4px 2px;
+        font-size: 15px;
+    }
+    .paid-button{
+        padding: 5px 10px;
+        font-size: 15px;
+    }
+    .confirm-button a{
+        padding: 5px 10px;
+        font-size: 15px;
+    }
+}
+
+@media (max-width:700px){
+    th,td{
+        padding: 2px 1px;
+        font-size: 13px;
+    }
+    .paid-button{
+        padding: 2px 5px;
+        font-size: 13px;
+    }
+    .confirm-button a{
+        padding: 2px 5px;
+        font-size: 13px;
+    }
+    .main-content{
+        padding: 15px 5px;
+    }
+}
+
+@media (max-width:571px){
+    .status{
+        display: none;
+    }
+}
+
+@media (max-width:445px){
+    th,td{
+        padding: 2px 1px;
+        font-size: 9px;
+    }
+    .paid-button{
+        font-size: 9px;
+    }
+    .confirm-button a{
+        font-size: 9px;
+    }
+    .main-content{
+        padding: 10px 1px;
+    }
+}
+
+/* responsive pending orders */
+@media (max-width:550px){
+    .pending-order{
+        font-size: 20px;
+        margin-bottom: 10px;
+    }
+    .order-details{
+        padding: 7px 17px;
+    }
+}
+
+@media (max-width:400px){
+    .pending-order{
+        font-size: 18px;
+    }
+    .order-details{
+        font-size: 15px;
+    }
+}
+
+/* responsive edit account */
+@media (max-width:600px){
+    .form-container{
+        max-width: 275px;
+        padding: 15px;
+    }
+    .form-container h2{
+        margin-bottom: 15px;
+        font-size: 20px;
+    }
+    .form-group label{
+        font-size: 15px;
+        margin-bottom: 3px;
+    }
+    .form-group input[type="text"],
+    .form-group input[type="tel"]{
+        padding: 7px;
+    }
+    .form-group .user-image{
+        width: 55px;
+        height: 55px;
+    }
+    .form-group button{
+        padding: 7px 15px;
+    }
+}
+
+/* responsive delete account */
+@media  (max-width:600px) {
+    .delete-account{
+        font-size: 15px;
+        padding: 7px 15px;
+    }
+    .not-delete-account a{
+        font-size: 15px;
+        padding: 7px 15px;
+    }
+}
+
+/* responsive confirm payment */
+@media (max-width:550px){
+    .box{
+        max-width: 250px;
+    }
+    .box h2{
+        font-size: 20px;
+        margin-bottom: 15px;
+    }
+    .box label{
+        font-size: 15px;
+    }
+    .box input,select{
+        padding: 7px;
+    }
+    .box button{
+        padding: 7px 15px;
+    }
+}
+
+@media (max-width:450px){
+    .box h2{
+        font-size: 18px;
+    }
+    .box button{
+        font-size: 15px;
+    }
+}

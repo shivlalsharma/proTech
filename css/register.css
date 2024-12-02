@@ -1,0 +1,145 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 80%;
+    margin: 20px auto;
+}
+
+.form-container {
+    max-width: 300px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-container h2 {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.form-group i{
+    position: absolute;
+    top: 29px;
+    right: 10px;
+    cursor: pointer;
+}
+
+.form-group p{
+    margin-top: 5px;
+    text-align: left;
+    color: #ff0000;
+}
+
+.form-group a{
+    text-decoration: none;
+    color: #0000ff;
+}
+
+.form-group a:visited{
+    color: #800080;
+}
+
+.form-group a:active{
+    color: #ff0000;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 3px;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="tel"] {
+    width: 100%;
+    padding: 7px;
+    border: 1px solid #333;
+    outline: none;
+    border-radius: 4px;
+}
+
+.form-group input[type="password"]{
+    width: 100%;
+    padding: 7px 40px 7px 7px;
+    border: 1px solid #333;
+    outline: none;
+    border-radius: 4px;
+}
+
+.form-group button {
+    width: 100%;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 0 auto;
+}
+
+form p{
+    text-align: center;
+    font-size: 16px;
+}
+
+form p a{
+    text-decoration: none;
+    margin-left: 5px;
+    color: #0000ff;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.form-group button:hover {
+    background-color: #0056b3;
+}
+
+@media (max-width:450px){
+    .form-container h2{
+        font-size: 20px;
+        margin-bottom: 15px;
+    }
+    .form-group input[type="text"],
+    .form-group input[type="email"],
+    .form-group input[type="password"],
+    .form-group input[type="tel"]{
+        padding: 5px 7px;
+        font-size: 15px;
+    }
+    .form-group a{
+        font-size: 15px;
+    }
+    .form-group label{
+        font-size: 15px;
+    }
+    form p{
+        font-size: 15px;
+    }
+    form p a{
+        font-size: 15px;
+    }
+    .form-group button{
+        padding: 7px 10px;
+    }
+    .form-group i{
+        top: 27px;
+    }
+}

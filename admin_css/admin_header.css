@@ -1,0 +1,635 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{ 
+    font-family: Arial, sans-serif; 
+    margin: 0; 
+    padding: 0; 
+}
+
+/* admin header */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 9;
+    background-color: #333;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 20px;
+}
+
+.navbar-left{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 15px;
+}
+
+.navbar-left span{
+    display: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.logo-image{
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.navbar-center{
+    display: flex;
+    align-items: center;
+}
+
+.navbar-right{
+    display: flex;
+}
+
+.navbar-center li{
+    border: none;
+    list-style: none;
+    padding: 10px 15px;
+}
+
+.navbar-right a .profile-image{
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.login-button {
+    background-color: #007bff;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.login-button:hover {
+    background-color: #0056b3;
+}
+
+.logout-button {
+    background-color: #ff0000;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.logout-button:hover {
+    background-color: #d00000;
+}
+
+.navbar a {
+    display: flex;
+    color: white;
+    text-decoration: none;
+}
+
+.navbar-center .cart a{
+    display: block;
+}
+
+.add-brand{
+    display: none;
+}
+
+.navbar-center li:hover .add-brand{
+    display: block;
+    position: absolute;
+    background-color: #333;
+}
+
+.add-category{
+    display: none;
+}
+
+.navbar-center li:hover .add-category{
+    display: block;
+    position: absolute;
+    background-color: #333;
+}
+
+.add-product{
+    display: none;
+}
+
+.navbar-center li:hover .add-product{
+    display: block;
+    position: absolute;
+    background-color: #333;
+}
+
+.add-cart{
+    display: none;
+}
+
+.navbar-center li:hover .add-cart{
+    display: block;
+    position: absolute;
+    background-color: #333;
+}
+
+.add-user{
+    display: none;
+}
+
+.navbar-center li:hover .add-user{
+    display: block;
+    position: absolute;
+    background-color: #333;
+}
+
+.add-order{
+    display: none;
+}
+
+.navbar-center li:hover .add-order{
+    display: block;
+    position: absolute;
+    background-color: #333;
+}
+
+.add-payment{
+    display: none;
+}
+
+.navbar-center li:hover .add-payment{
+    display: block;
+    position: absolute;
+    background-color: #333;
+}
+
+.add-contact{
+    display: none;
+}
+
+.navbar-center li:hover .add-contact{
+    display: block;
+    position: absolute;
+    background-color: #333;
+}
+
+.add-admin{
+    display: none;
+}
+
+.navbar-center li:hover .add-admin{
+    display: block;
+    position: absolute;
+    background-color: #333;
+}
+
+/* admin form page */
+.form-container {
+    max-width: 300px;
+    margin: auto;
+    margin-top: 80px;
+    padding: 10px 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.form-container h2 {
+    text-align: center;
+    margin-bottom: 15px;
+    font-size: 20px;
+}
+
+.form-group {
+    margin-bottom: 13px;
+    position: relative;
+}
+
+.form-group i{
+    position: absolute;
+    top: 32px;
+    right: 10px;
+    cursor: pointer;
+}
+
+.form-group p{
+    margin-top: 5px;
+    text-align: left;
+    color: #ff0000;
+    font-size: 15px;
+}
+
+.form-group a{
+    text-decoration: none;
+    color: #0000ff;
+    font-size: 15px;
+}
+
+.form-group a:visited{
+    color: #800080;
+}
+
+.form-group a:active{
+    color: #ff0000;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 3px;
+    font-size: 15px;
+}
+
+.form-group img{
+    width: 55px;
+    height: 55px;
+    object-fit: contain;
+    position: absolute;
+    top: 0;
+    right: -10px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.form-group input[type="text"], 
+.form-group input[type="number"],
+.form-group input[type="email"], 
+select {
+    width: 100%;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #333;
+    outline: none;
+}
+
+.form-group input[type="password"]{
+    width: 100%;
+    padding: 8px 40px 8px 8px;
+    border: 1px solid #333;
+    outline: none;
+    border-radius: 4px;
+}
+
+.form-group .user-image{
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 50%;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.form-group button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 7px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin: 0;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 15px;
+}
+
+.form-group button:hover {
+    background-color: #45a049;
+}
+
+form p{
+    font-size: 15px;
+}
+
+form p a{
+    text-decoration: none;
+    margin-left: 5px;
+    color: #0000ff;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+/* modal for admin */
+#modal{
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 10;
+    overflow: auto;
+    transition: opacity 0.5s ease;
+}
+
+/* toggle button */
+.modal-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    background-color: #666;
+    padding: 10px 10px;
+    width: 180px;
+    position: relative;
+    left: 0px;
+    top: 70px;
+    transition: left 0.5s ease;
+    position: fixed;
+}
+
+.sidebar{
+    background-color: #666;
+    margin-left: 15px;
+}
+
+.sidebar span{
+    position: absolute;
+    top: -10px;
+    right: -25px;
+    font-size: 40px;
+    cursor: pointer;
+    color: #fff;
+}
+
+.sidebar li{
+    list-style-type: none;
+    padding: 5px 10px;
+}
+
+.sidebar li a{
+    text-decoration: none;
+    color: #fff;
+    display: inline-block;
+}
+
+/* admin sidebar dropdown */
+.add-brand{
+    display: none;
+}
+
+.sidebar li:hover .add-brand{
+    display: block;
+    position: absolute;
+    background-color: #333;
+    top: 39px;
+    right: -18px;
+}
+
+.add-category{
+    display: none;
+}
+
+.sidebar li:hover .add-category{
+    display: block;
+    position: absolute;
+    background-color: #333;
+    top: 68px;
+    right: -70px;
+}
+
+.add-product{
+    display: none;
+}
+
+.sidebar li:hover .add-product{
+    display: block;
+    position: absolute;
+    background-color: #333;
+    top: 97px;
+    right: -42px;
+}
+
+.add-cart{
+    display: none;
+}
+
+.sidebar li:hover .add-cart{
+    display: block;
+    position: absolute;
+    background-color: #333;
+    top: 127px;
+    right: 20px;
+}
+
+.add-order{
+    display: none;
+}
+
+.sidebar li:hover .add-order{
+    display: block;
+    position: absolute;
+    background-color: #333;
+    top: 158px;
+    right: -14px;
+}
+
+.add-payment{
+    display: none;
+}
+
+.sidebar li:hover .add-payment{
+    display: block;
+    position: absolute;
+    background-color: #333;
+    top: 188px;
+    right: -58px;
+}
+
+.add-user{
+    display: none;
+}
+
+.sidebar li:hover .add-user{
+    display: block;
+    position: absolute;
+    background-color: #333;
+    top: 216px;
+    right: 2px;
+}
+
+.add-contact{
+    display: none;
+}
+
+.sidebar li:hover .add-contact{
+    display: block;
+    position: absolute;
+    background-color: #333;
+    top: 245px;
+    right: -42px;
+}
+
+.add-admin{
+    display: none;
+}
+
+.sidebar li:hover .add-admin{
+    display: block;
+    position: absolute;
+    background-color: #333;
+    top: 274px;
+    right: -20px;
+}
+
+/* responsive admin header */
+@media (max-width:1150px){
+    .navbar-left span{
+        display: block;
+    }
+    .navbar-center .admin{
+        display: none;
+    }
+    .navbar-center li{
+        padding: 10px 10px;
+    }
+}
+
+@media (max-width:1050px){
+    .navbar-center .contact{
+        display: none;
+    }
+}
+
+@media (max-width:950px){
+    .navbar-center .user{
+        display: none;
+    }
+}
+
+@media (max-width:900px){
+    .navbar-center .payment{
+        display: none;
+    }
+}
+
+@media (max-width:800px){
+    .navbar-center .order{
+        display: none;
+    }
+}
+
+@media (max-width:725px){
+    .navbar-center .product{
+        display: none;
+    }
+}
+
+@media (max-width:650px){
+    .navbar-center .category{
+        display: none;
+    }
+}
+
+@media (max-width:550px){
+    .navbar-center .brand{
+        display: none;
+    }
+    .navbar{
+        padding: 5px 10px;
+    }
+}
+
+@media (max-width:450px){
+    .navbar a{
+        font-size: 15px;
+    }
+    .navbar-left span{
+        font-size: 15px;
+    }
+    .navbar-left{
+        column-gap: 10px;
+    }
+    .navbar-center .dashboard{
+        display: none;
+    }
+    .navbar-right a .profile-image{
+        width: 50px;
+        height: 50px;
+    }
+    .logo-image{
+        width: 50px;
+        height: 50px;
+    }
+}
+
+/* responsive admin form page */
+@media (max-width:450px){
+    .form-container{
+        max-width: 270px;
+        margin-top: 70px;
+    }
+    .form-container h2{
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+    .form-group .user-image{
+        width: 45px;
+        height: 45px;
+    }
+    .form-group input[type="text"], 
+    .form-group input[type="number"],
+    .form-group input[type="email"], 
+    select {
+        padding: 5px;
+    }
+    .form-group input[type="password"]{
+        padding: 5px 40px 5px 5px;
+    }
+    .form-group i{
+        top: 28px;
+    }
+}
+
+/* responsive admin sidebar modal */
+@media (max-width:450px) {
+    .modal-content{
+        width: 150px;
+        top: 60px;
+    }
+    .sidebar li a{
+        font-size: 15px;
+    }
+    .sidebar span{
+        top: -6px;
+        right: -19px;
+        font-size: 30px;
+    }
+
+    /* responsive admin sidebar dropdown */
+    .sidebar li:hover .add-brand{
+        right: -38px;
+    }
+    .sidebar li:hover .add-category{
+        right: -88px;
+    }
+    .sidebar li:hover .add-product{
+        right: -62px;
+    }
+    .sidebar li:hover .add-cart{
+        right: -2px;
+    }
+    .sidebar li:hover .add-order{
+        right: -36px;
+    }
+    .sidebar li:hover .add-payment{
+        right: -78px;
+    }
+    .sidebar li:hover .add-user{
+        right: -22px;
+    }
+    .sidebar li:hover .add-contact{
+        right: -62px;
+    }
+    .sidebar li:hover .add-admin{
+        right: -42px;
+    }
+}
