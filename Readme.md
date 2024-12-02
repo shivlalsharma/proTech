@@ -25,7 +25,7 @@
 - **Order Management**: View, update, or delete orders.
 - **Payment Management**: View and manage payments.
 - **Cart Overview**: View the number of carts and the total cart amount.
-- **Admin Management**: Manage admin users and permissions.
+- **Admin Management**: Add, edit, or delete admins.
 - **Login**: Secure admin login to access the dashboard.
 - **Forgot Password**: Admins can reset their password by receiving a reset link via email.
 
