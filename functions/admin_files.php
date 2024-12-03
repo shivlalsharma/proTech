@@ -1820,25 +1820,24 @@
                     echo "<div class='container'>
                             <div class='form-container'>
                                 <h2>Add User</h2>
-                                <form action='".htmlspecialchars($_SERVER['PHP_SELF'])."' method='post'>
+                                <form action='".htmlspecialchars($_SERVER['PHP_SELF'])."' method='post' onsubmit='return validate()'>
                                     <div class='form-group'>
                                         <label for='user_name'>Name</label>
                                         <input type='text' id='user_name' name='user_name' required>
                                     </div>
                                     <div class='form-group'>
                                         <label for='email'>Email</label>
-                                        <input type='email' id='email' name='email' onKeyUp='check1(this.value)' required>
-                                        <p class='error'></p>
+                                        <input type='email' id='email' name='email' required>
                                     </div>
                                     <div class='form-group'>
                                         <label for='password'>Password</label>
-                                        <input type='password' id='password' name='password' onKeyUp='check2(this.value)' required>
+                                        <input type='password' id='password' name='password' onKeyUp='check1(this.value)' required>
                                         <i class='fa-sharp fa-solid fa-eye-slash' id='eye-close' onClick='toggle()'></i>
                                         <p class='error'></p>
                                     </div>
                                     <div class='form-group'>
                                         <label for='cpassword'>Confirm Password</label>
-                                        <input type='password' id='cpassword' name='cpassword' onKeyUp='check3(this.value)' required>
+                                        <input type='password' id='cpassword' name='cpassword' onKeyUp='check2(this.value)' required>
                                         <p class='error'></p>
                                     </div>
                                     <div class='form-group'>
@@ -1885,7 +1884,7 @@
         if(isset($_POST['update_user'])){
             if(isset($_SESSION['admin_id'])){
                 $user_name = $user_email =  $user_pass = $user_image = $user_mobile_no = $user_address = $user_status = "";
-                $user_name_error = $user_email_error = $user_pass_error = $user_status_error = "";
+                $user_name_error = $user_email_error = $user_status_error = "";
                 function testinput($data){
                     $data = trim($data);
                     $data = stripslashes($data);
@@ -1901,11 +1900,6 @@
                     $user_email = testinput($_POST['email']);
                 }else{
                     $user_email_error = "<p>Email must be required</p>";
-                }
-                if(!empty($_POST['password'])){
-                    $user_pass = testinput($_POST['password']);
-                }else{
-                    $user_pass_error = "<p>Password must be required</p>";
                 }
                 if (isset($_FILES['user_image']) && $_FILES['user_image']['error'] === UPLOAD_ERR_OK) {
                     $user_image = testinput($_FILES['user_image']['name']);
@@ -1928,37 +1922,76 @@
                     $user_status = "<p>Status must be required</p>";
                 }
                 $user_id = $_POST['user_id'];
-                $user_hash_pass = password_hash($user_pass,PASSWORD_BCRYPT);
-                if (empty($user_name_error) && empty($user_email_error) && empty($user_pass_error) && empty($user_status_error)) {
-                    if (isset($_FILES['user_image']) && $_FILES['user_image']['error'] === UPLOAD_ERR_OK) {
-                        $upload_dir = '../user_images/';
-                        if(!is_dir($upload_dir)){
-                            mkdir($upload_dir,0755,true);
-                        }
-                        $upload_file = $upload_dir . basename($_FILES['user_image']['name']);
-                        if (move_uploaded_file($_FILES['user_image']['tmp_name'], $upload_file)) {
-                            $user_image = basename($_FILES['user_image']['name']);
+                if (empty($user_name_error) && empty($user_email_error) && empty($user_status_error)) {
+
+                    $checkingStatus = 'active';
+
+                    include '../connect.php';
+                    $check_email_query = "SELECT * FROM `register` WHERE `user_email` = ? AND `user_id` != ? AND `status` = ?";
+                    $stmt = $con->prepare($check_email_query);
+                    $stmt->bind_param('sis', $user_email, $user_id,$checkingStatus);
+                    $stmt->execute();
+                    $result = $stmt->get_result();
+        
+                    if ($result->num_rows > 0) {
+                        // If the email already exists for another user
+                        echo "<script>alert('Email already exists!');</script>";
+                        echo "<script>window.open('dashboard.php?users','_self');</script>";
+                    }
+                    else{
+
+                        if (isset($_FILES['user_image']) && $_FILES['user_image']['error'] === UPLOAD_ERR_OK) {
+                            $upload_dir = '../user_images/';
+                            if(!is_dir($upload_dir)){
+                                mkdir($upload_dir,0755,true);
+                            }
+                            $upload_file = $upload_dir . basename($_FILES['user_image']['name']);
+                            if (move_uploaded_file($_FILES['user_image']['tmp_name'], $upload_file)) {
+                                $user_image = basename($_FILES['user_image']['name']);
+                            } else {
+                                $user_image = "default.png";
+                            }
                         } else {
                             $user_image = "default.png";
                         }
-                    } else {
-                        $user_image = "default.png";
-                    }
-                    include '../connect.php';
-                    $update_query = "UPDATE `register` SET `user_name`=?,`user_image`=?,`user_address`=?,`user_phone`=?, `user_email`=?,`user_password`=?,`status`=? WHERE `user_id`=?";
-                    $answer = $con->prepare($update_query);
-                    if($answer){
-                        $answer->bind_param('sssisssi',$user_name,$user_image,$user_address,$user_mobile_no,$user_email,$user_hash_pass,$user_status,$user_id);
-                        if($answer->execute()){
-                            echo "<script>alert('User updated successfully!');</script>";
-                            echo "<script>window.open('dashboard.php?users','_self');</script>";
+
+                        $select_user_query = "SELECT * FROM `register` WHERE `user_id`=?";
+                        $select_user_result = $con->prepare($select_user_query);
+                        $select_user_result->bind_param('i', $user_id);
+                        $select_user_result->execute();
+                        $values = $select_user_result->get_result();
+                        if($values->num_rows > 0){
+                            $row = $values->fetch_assoc();
+
+                            // Check if a new password was entered
+                            if(!empty($_POST['password'])){
+                                // Hash the new password if provided
+                                $user_pass = password_hash($_POST['password'], PASSWORD_BCRYPT);
+                            }
+                            else{
+                                // Fetch the existing password
+                                $user_pass = $row['user_password'];
+                            }
+                        }
+                        
+                        include '../connect.php';
+                        $update_query = "UPDATE `register` SET `user_name`=?,`user_image`=?,`user_address`=?,`user_phone`=?, `user_email`=?,`user_password`=?,`status`=? WHERE `user_id`=?";
+                        $answer = $con->prepare($update_query);
+                        if($answer){
+                            $answer->bind_param('sssisssi',$user_name,$user_image,$user_address,$user_mobile_no,$user_email,$user_pass,$user_status,$user_id);
+                            if($answer->execute()){
+                                echo "<script>alert('User updated successfully!');</script>";
+                                echo "<script>window.open('dashboard.php?users','_self');</script>";
+                            }else{
+                                echo "<script>window.open('dashboard.php?users','_self');</script>";
+                            }
                         }else{
                             echo "<script>window.open('dashboard.php?users','_self');</script>";
                         }
-                    }else{
-                        echo "<script>window.open('dashboard.php?users','_self');</script>";
+                        $answer->close();
+                        $con->close();
                     }
-                    $answer->close();
+                    $stmt->close();
                     $con->close();
                 }
             }
@@ -2020,8 +2053,8 @@
                                                 </div>
                                                 <div class='form-group'>
                                                     <label for='password'>Password</label>
-                                                    <input type='password' id='password' name='password' value='".$user_pass."' required>
-                                                    ".(isset($user_pass_error) ? $user_pass_error : "")."
+                                                    <input type='password' id='password' name='password'>
+                                                    <i class='fa-sharp fa-solid fa-eye-slash' id='eye-close' onClick='toggle()'></i>
                                                 </div>
                                                 <div class='form-group'>
                                                     <label for='user_status'>Password</label>
@@ -2680,25 +2713,24 @@
                     echo "<div class='container'>
                             <div class='form-container'>
                                 <h2>Add Admin</h2>
-                                <form action='".htmlspecialchars($_SERVER['PHP_SELF'])."' method='post'>
+                                <form action='".htmlspecialchars($_SERVER['PHP_SELF'])."' method='post' onsubmit='return validate()'>
                                     <div class='form-group'>
                                         <label for='admin_name'>Name</label>
                                         <input type='text' id='admin_name' name='admin_name' required>
                                     </div>
                                     <div class='form-group'>
                                         <label for='email'>Email</label>
-                                        <input type='email' id='email' name='email' onKeyUp='check1(this.value)' required>
-                                        <p class='error'></p>
+                                        <input type='email' id='email' name='email' required>
                                     </div>
                                     <div class='form-group'>
                                         <label for='password'>Password</label>
-                                        <input type='password' id='password' name='password' onKeyUp='check2(this.value)' required>
+                                        <input type='password' id='password' name='password' onKeyUp='check1(this.value)' required>
                                         <i class='fa-sharp fa-solid fa-eye-slash' id='eye-close' onClick='toggle()'></i>
                                         <p class='error'></p>
                                     </div>
                                     <div class='form-group'>
                                         <label for='cpassword'>Confirm Password</label>
-                                        <input type='password' id='cpassword' name='cpassword' onKeyUp='check3(this.value)' required>
+                                        <input type='password' id='cpassword' name='cpassword' onKeyUp='check2(this.value)' required>
                                         <p class='error'></p>
                                     </div>
                                     <div class='form-group'>
@@ -2722,20 +2754,49 @@
                 if(!empty($_GET['delete_admin_id'])){
                     include '../connect.php';
                     $delete_admin_id = (int) $_GET['delete_admin_id'];
-                    $delete_admin_query = "DELETE FROM `admin_table` WHERE `admin_id`=?";
-                    $delete_result = $con->prepare($delete_admin_query);
-                    if($delete_result){
-                        $delete_result->bind_param('i',$delete_admin_id);
-                        if($delete_result->execute()){
-                            echo "<script>window.open('dashboard.php?admins','_self');</script>";
+
+                    // Check if the admin is deleting their own account
+                    if ($_SESSION['admin_id'] == $delete_admin_id) {
+                        // Destroy the session and log out the admin
+                        session_unset();
+                        session_destroy();
+                        // Delete the admin account from the database
+                        $delete_admin_query = "DELETE FROM `admin_table` WHERE `admin_id`=?";
+                        $delete_result = $con->prepare($delete_admin_query);
+
+                        if ($delete_result) {
+                            $delete_result->bind_param('i', $delete_admin_id);
+                            if ($delete_result->execute()) {
+                                echo "<script>alert('Your account has been deleted. You are logged out.');</script>";
+                                echo "<script>window.open('admin_login.php', '_self');</script>";
+                            } else {
+                                echo "<script>alert('Failed to delete your account.');</script>";
+                                echo "<script>window.open('dashboard.php?admins', '_self');</script>";
+                            }
+                        } else {
+                            echo "<script>alert('Failed to delete your account.');</script>";
+                            echo "<script>window.open('dashboard.php?admins', '_self');</script>";
+                        }
+
+                        $delete_result->close();
+                        $con->close();
+                    } else {
+                        // Proceed with deleting the admin account
+                        $delete_admin_query = "DELETE FROM `admin_table` WHERE `admin_id`=?";
+                        $delete_result = $con->prepare($delete_admin_query);
+                        if($delete_result){
+                            $delete_result->bind_param('i',$delete_admin_id);
+                            if($delete_result->execute()){
+                                echo "<script>window.open('dashboard.php?admins','_self');</script>";
+                            }else{
+                                echo "<script>window.open('dashboard.php?admins','_self');</script>";
+                            }
                         }else{
                             echo "<script>window.open('dashboard.php?admins','_self');</script>";
                         }
-                    }else{
-                        echo "<script>window.open('dashboard.php?admins','_self');</script>";
+                        $delete_result->close();
+                        $con->close();
                     }
-                    $delete_result->close();
-                    $con->close();
                 }else{
                     echo "<script>window.open('dashboard.php?admins','_self');</script>";
                 }
@@ -2747,7 +2808,7 @@
         if(isset($_POST['update_admin'])){
             if(isset($_SESSION['admin_id'])){
                 $admin_name = $admin_email =  $admin_pass = $admin_image = $admin_mobile_no = $admin_address = $admin_status = "";
-                $admin_name_error = $admin_email_error = $admin_pass_error = $admin_status_error = "";
+                $admin_name_error = $admin_email_error  = $admin_status_error = "";
                 function testinput($data){
                     $data = trim($data);
                     $data = stripslashes($data);
@@ -2763,11 +2824,6 @@
                     $admin_email = testinput($_POST['email']);
                 }else{
                     $admin_email_error = "<p>Email must be required</p>";
-                }
-                if(!empty($_POST['password'])){
-                    $admin_pass = testinput($_POST['password']);
-                }else{
-                    $admin_pass_error = "<p>Password must be required</p>";
                 }
                 if(!empty($_POST['status'])){
                     $admin_status = testinput($_POST['status']);
@@ -2789,38 +2845,77 @@
                 }else{
                     $admin_address = "";
                 }
+                
                 $admin_id = $_POST['admin_id'];
-                $admin_hash_pass = password_hash($admin_pass,PASSWORD_BCRYPT);
-                if (empty($admin_name_error) && empty($admin_email_error) && empty($admin_pass_error)) {
-                    if (isset($_FILES['admin_image']) && $_FILES['admin_image']['error'] === UPLOAD_ERR_OK) {
-                        $upload_dir = '../admin_images/';
-                        if(!is_dir($upload_dir)){
-                            mkdir($upload_dir,0755,true);
-                        }
-                        $upload_file = $upload_dir . basename($_FILES['admin_image']['name']);
-                        if (move_uploaded_file($_FILES['admin_image']['tmp_name'], $upload_file)) {
-                            $admin_image = basename($_FILES['admin_image']['name']);
+                if (empty($admin_name_error) && empty($admin_email_error)) {
+
+                    $checkingStatus = 'active';
+
+                    include '../connect.php';
+                    $check_email_query = "SELECT * FROM `admin_table` WHERE `admin_email` = ? AND `admin_id` != ? AND `status` = ?";
+                    $stmt = $con->prepare($check_email_query);
+                    $stmt->bind_param('sis', $admin_email, $admin_id,$checkingStatus);
+                    $stmt->execute();
+                    $result = $stmt->get_result();
+        
+                    if ($result->num_rows > 0) {
+                        // If the email already exists for another admin
+                        echo "<script>alert('Email already exists!');</script>";
+                        echo "<script>window.open('dashboard.php?admins','_self');</script>";
+                    }
+                    else{
+                        if (isset($_FILES['admin_image']) && $_FILES['admin_image']['error'] === UPLOAD_ERR_OK) {
+                            $upload_dir = '../admin_images/';
+                            if(!is_dir($upload_dir)){
+                                mkdir($upload_dir,0755,true);
+                            }
+                            $upload_file = $upload_dir . basename($_FILES['admin_image']['name']);
+                            if (move_uploaded_file($_FILES['admin_image']['tmp_name'], $upload_file)) {
+                                $admin_image = basename($_FILES['admin_image']['name']);
+                            } else {
+                                $admin_image = "default.png";
+                            }
                         } else {
                             $admin_image = "default.png";
                         }
-                    } else {
-                        $admin_image = "default.png";
-                    }
-                    include '../connect.php';
-                    $update_query = "UPDATE `admin_table` SET `admin_name`=?,`admin_image`=?,`admin_address`=?,`admin_phone`=?, `admin_email`=?,`admin_password`=?,`status`=? WHERE `admin_id`=?";
-                    $answer = $con->prepare($update_query);
-                    if($answer){
-                        $answer->bind_param('sssisssi',$admin_name,$admin_image,$admin_address,$admin_mobile_no,$admin_email,$admin_hash_pass,$admin_status,$admin_id);
-                        if($answer->execute()){
-                            echo "<script>alert('Admin updated successfully!');</script>";
-                            echo "<script>window.open('dashboard.php?admins','_self');</script>";
-                        } else{
+
+                        $select_admin_query = "SELECT * FROM `admin_table` WHERE `admin_id`=?";
+                        $select_admin_result = $con->prepare($select_admin_query);
+                        $select_admin_result->bind_param('i', $admin_id);
+                        $select_admin_result->execute();
+                        $values = $select_admin_result->get_result();
+                        if($values->num_rows > 0){
+                            $row = $values->fetch_assoc();
+
+                            // Check if a new password was entered
+                            if(!empty($_POST['password'])){
+                                // Hash the new password if provided
+                                $admin_pass = password_hash($_POST['password'], PASSWORD_BCRYPT);
+                            }
+                            else{
+                                // Fetch the existing password
+                                $admin_pass = $row['admin_password'];
+                            }
+                        }
+
+                        include '../connect.php';
+                        $update_query = "UPDATE `admin_table` SET `admin_name`=?,`admin_image`=?,`admin_address`=?,`admin_phone`=?, `admin_email`=?,`admin_password`=?,`status`=? WHERE `admin_id`=?";
+                        $answer = $con->prepare($update_query);
+                        if($answer){
+                            $answer->bind_param('sssisssi',$admin_name,$admin_image,$admin_address,$admin_mobile_no,$admin_email,$admin_pass,$admin_status,$admin_id);
+                            if($answer->execute()){
+                                echo "<script>alert('Admin updated successfully!');</script>";
+                                echo "<script>window.open('dashboard.php?admins','_self');</script>";
+                            } else{
+                                echo "<script>window.open('dashboard.php?admins','_self');</script>";
+                            }
+                        }else{
                             echo "<script>window.open('dashboard.php?admins','_self');</script>";
                         }
-                    }else{
-                        echo "<script>window.open('dashboard.php?admins','_self');</script>";
+                        $answer->close();
+                        $con->close();
                     }
-                    $answer->close();
+                    $stmt->close();
                     $con->close();
                 }
             }else{
@@ -2881,8 +2976,8 @@
                                                 </div>
                                                 <div class='form-group'>
                                                     <label for='password'>Password</label>
-                                                    <input type='password' id='password' name='password' value='".$admin_pass."' required>
-                                                    ".(isset($admin_pass_error) ? $admin_pass_error : "")."
+                                                    <input type='password' id='password' name='password'>
+                                                    <i class='fa-sharp fa-solid fa-eye-slash' id='eye-close' onClick='toggle()'></i>
                                                 </div>
                                                 <div class='form-group'>
                                                     <label for='status'>Status</label>

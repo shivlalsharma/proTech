@@ -25,11 +25,14 @@
         else{
             $admin_pass_error = "<p>Password must be required</p>";
         }
+
+        $admin_status = 'active';
+
         include '../connect.php';
-        $select_query = "SELECT `admin_id`,`admin_email`,`admin_password` FROM `admin_table` WHERE `admin_email`=?";
+        $select_query = "SELECT `admin_id`,`admin_email`,`admin_password` FROM `admin_table` WHERE `admin_email`=? AND `status`=?";
         $result = $con->prepare($select_query);
         if($result){
-            $result->bind_param('s',$admin_email);
+            $result->bind_param('ss',$admin_email,$admin_status);
             if($result->execute()){
                 $values = $result->get_result();
                 if($values->num_rows > 0){
